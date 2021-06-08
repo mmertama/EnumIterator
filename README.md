@@ -1,5 +1,9 @@
 # EnumIterator
 Simple iterate over enum class, get value as a string or enumeration by string.
+
+* C++17
+* GCC, CLANG.
+
 <pre>
 class EnumIterator {
   public:

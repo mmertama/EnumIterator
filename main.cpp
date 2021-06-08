@@ -1,15 +1,13 @@
 #include <iostream>
 #include "enumiterator.h"
 
-enum class States
-        {
-    symptom,
-    healed,
-    zucker = 3
-        };
+enum class States {
+symptom,
+healed,
+zucker = 3
+};
 
-enum class Genophenes
-{
+enum class Genophenes {
     treee = 92,
     hulien = 21,
     doomsday = 103
