@@ -42,8 +42,8 @@ for(const auto& [v, s] : EnumIterator::Values<States>{}) {
 > 1 --> States::healed
 > 3 --> States::zucker
     
-EnumIterator::Values<States>::valueOf("symptom");
-EnumIterator::Values<States>::nameOf(States::symptom));
+EnumIterator::Values<States>::valueOf("symptom"); // States::symptom
+EnumIterator::Values<States>::nameOf(States::symptom)); // "symptom"
 
 enum class Genophenes {
     treee = 92,
