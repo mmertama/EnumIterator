@@ -2,7 +2,7 @@
 Simple iterate over enum class, get value as a string or enumeration by string.
 
 * C++17
-* GCC, CLANG.
+* GCC, Clang.
 
 <pre>
 class EnumIterator {
@@ -36,9 +36,30 @@ enum class States {
 for(const auto& [v, s] : EnumIterator::Values<States>{}) {
     std::cout << static_cast<int>(v) << " --> " << s << std::endl;
 }
+
+// outputs
+> 0 --> States::symptom
+> 1 --> States::healed
+> 3 --> States::zucker
     
 EnumIterator::Values<States>::valueOf("symptom");
 EnumIterator::Values<States>::nameOf(States::symptom));
+
+enum class Genophenes {
+    treee = 92,
+    hulien = 21,
+    doomsday = 103
+};
+
+//here we have to set ranges due bigger values, you can also use enum values here.
+ for(const auto& [v, s] : EnumIterator::Values<Genophenes, 20, 110>{}) {
+        std::cout << static_cast<int>(v) << " --> " << s << std::endl;
+    }
+
+//outputs
+> 21 --> Genophenes::hulien
+> 92 --> Genophenes::treee
+> 103 --> Genophenes::doomsday
             
  </pre> 
   
