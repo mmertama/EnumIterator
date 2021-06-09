@@ -1,7 +1,12 @@
 # EnumIterator
-Let iterate over an enum class, get an single enum name as a string, and get an enumeration value by a string.
 
-https://github.com/mmertama/EnumIterator
+* Let iterate over an enum, unscoped, or scoped.
+
+* Get an single enum name as a string.
+
+* Get an enumeration value by a string.
+
+Origin: https://github.com/mmertama/EnumIterator
 
 * C++17
 * GCC, Clang. MinGW, MSVC19

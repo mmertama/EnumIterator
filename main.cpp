@@ -20,10 +20,15 @@ enum class F99 : unsigned {
     bing, bang, bong
 };
 
+enum Game  {
+    Fing, Fang, Foom
+};
+
+enum Fame {
+    Ping = -2, Pang, Poom
+};
+
 int main() {
-
-
-
 
     for(const auto& [v, s] : EnumIterator::Values<States>{}) {
         std::cout << static_cast<int>(v) << " --> " << s << std::endl;
@@ -44,9 +49,17 @@ int main() {
         std::cout << static_cast<int>(v) << " --> " << s << std::endl;
     }
 
+    for(const auto& [v, s] : EnumIterator::Values<Game>{}) {
+        std::cout << static_cast<int>(v) << " --> " << s << std::endl;
+    }
+
+    for(const auto& [v, s] : EnumIterator::Values<Fame, Ping, Poom>{}) {
+        std::cout << static_cast<int>(v) << " --> " << s << std::endl;
+    }
+
     const auto prout = [](auto v0, auto n0) {
-        std::cout << "Hello " << (v0 ? std::to_string(static_cast<int>(*v0)) : "N/A") << std::endl;
-        std::cout << "Hello " << (n0? *n0 : "N/A") << std::endl;
+        std::cout << "Hello " << (v0 ? std::to_string(static_cast<int>(*v0)) : "N/A");
+        std::cout << " as " << (n0? *n0 : "N/A") << std::endl;
     };
 
     prout(
@@ -76,6 +89,20 @@ int main() {
     prout(
             EnumIterator::Values<Genophenes, Genophenes::hulien, Genophenes::doomsday>::valueOf("doomsday"),
             EnumIterator::Values<Genophenes, Genophenes::hulien, Genophenes::doomsday>::nameOf(Genophenes::doomsday));
+
+    prout(
+            EnumIterator::Values<Game, Fing, Foom>::valueOf("Fing"),
+            EnumIterator::Values<Game, Fing, Foom>::nameOf(Fang));
+
+    prout(
+            EnumIterator::Values<Fame, Ping, Poom>::valueOf("Ping"),
+            EnumIterator::Values<Fame, Ping, Poom>::nameOf(Pang));
+
+    prout(
+            EnumIterator::Values<Fame, Ping, Poom>::valueOf("Poom"),
+            EnumIterator::Values<Fame, Ping, Poom>::nameOf(Poom));
+
+
 
     return 0;
 }

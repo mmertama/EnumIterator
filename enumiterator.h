@@ -32,6 +32,7 @@ class EnumIterator {
             return pos<index, c, current + 1, S>(f);
         }
     }
+
     template <int index, char c, int at, typename ENUM, ENUM VALUE>
     static constexpr int find() noexcept {
         constexpr auto f = []()->std::string_view {
@@ -40,6 +41,7 @@ class EnumIterator {
         };
         return pos<index, c, at, decltype(f)>(f);
     }
+
     template <typename ENUM, ENUM VALUE>
     static constexpr std::string_view name() noexcept {
 #if defined(_MSC_VER)
@@ -74,14 +76,18 @@ public:
                 apply<P - 1>(array);
             }
         }
+
         std::array<std::string_view, SZ> values = []() {
             std::array<std::string_view, SZ> array = {};
             apply<SZ>(array);
-
             return array;
         } ();
 
-     static std::optional<std::size_t> isName(const std::string_view& v) {
+    static constexpr bool isName(const std::string_view& v) {
+        return v.size() > 0 && std::isalpha(v[0]); // Invalid for clang is number, gcc is '(', as msvc
+    }
+
+     static constexpr std::optional<std::size_t> nameExt(const std::string_view& v) {
         constexpr char ENUM_SEP = ':';
         const auto p0 = v.find_first_of(ENUM_SEP);
         return (p0 != std::string_view::npos && p0 < v.size() + 1 && v[p0 + 1] == ENUM_SEP)
@@ -102,7 +108,7 @@ public:
 
             Iterator(const std::array<std::string_view, SZ>& val, int pos) : m_values(val), m_index(pos) {
                 if(m_index < SZ - 1) { //expected to be valid on start
-                    while(!isName(m_values[m_index]) && m_index < SZ) {
+                    while(!isName(m_values[m_index]) && m_index < SZ - 1) {
                         ++m_index;
                     }
                 }
@@ -110,10 +116,10 @@ public:
 
             Iterator& operator++() {
                 do {
-                    if(m_index >= SZ - 1)
+                    if(m_index >= SZ)
                         break;
                     ++m_index;
-                } while(!isName(m_values[m_index]));
+                } while(m_index < SZ && !isName(m_values[m_index]));
                 return *this;
             }
 
@@ -122,7 +128,7 @@ public:
                     if(m_index <= 0)
                         break;
                     --m_index;
-                } while(!isName(m_values[m_index]));
+                } while(m_index >= 0 && !isName(m_values[m_index]));
                 return *this;
             }
 
@@ -139,6 +145,7 @@ public:
                 }
 
             friend bool operator== (const Iterator& a, const Iterator& b) { return a.m_index == b.m_index; };
+
             friend bool operator!= (const Iterator& a, const Iterator& b) { return a.m_index != b.m_index; };
 
             const std::array<std::string_view, SZ>& m_values;
@@ -152,7 +159,7 @@ public:
 
         /// end
         Iterator end() const {
-            return Iterator(values, SZ - 1);
+            return Iterator(values, SZ);
         }
 
         /// get a name from
@@ -174,9 +181,9 @@ public:
            int index_of = 0;
             const auto names = EnumIterator::Values<ENUM, RANGE_MIN, RANGE_MAX>().values;
             for(const auto& v : names) {
-                const auto p0 = isName(v);
-                if(p0) {
-                    if(*p0 < v.size() + 2 && v.substr(*p0 + 2) == str)
+                if(isName(v)) {
+                    const auto p0 = nameExt(v);
+                    if((p0 && (*p0 < v.size() + 2 && v.substr(*p0 + 2) == str)) || str == v)
                         return static_cast<ENUM>(index_of + static_cast<int>(RANGE_MIN));
                 }
                 ++index_of;
