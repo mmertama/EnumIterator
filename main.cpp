@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+
 #include "enumiterator.h"
 
 enum class States {
@@ -19,6 +21,9 @@ enum class F99 : unsigned {
 };
 
 int main() {
+
+
+
 
     for(const auto& [v, s] : EnumIterator::Values<States>{}) {
         std::cout << static_cast<int>(v) << " --> " << s << std::endl;

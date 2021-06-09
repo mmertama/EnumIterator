@@ -2,7 +2,7 @@
 Simple iterate over enum class, get value as a string or enumeration by string.
 
 * C++17
-* GCC, Clang.
+* GCC, Clang. MinGW, MSVC19
 
 <pre>
 class EnumIterator {
@@ -63,4 +63,5 @@ enum class Genophenes {
             
  </pre> 
   
+  MIT License, (c) Markus Mertama 2021
   

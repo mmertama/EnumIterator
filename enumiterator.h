@@ -9,7 +9,12 @@
 
 using namespace std::string_view_literals;
 
+#ifdef _MSC_VER
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#endif
+
 class EnumIterator {
+
     template <typename ENUM, ENUM VALUE, std::enable_if_t<std::is_enum<ENUM>::value, bool> = true>
     static constexpr std::string_view string() noexcept {
         return __PRETTY_FUNCTION__;
@@ -37,13 +42,20 @@ class EnumIterator {
     }
     template <typename ENUM, ENUM VALUE>
     static constexpr std::string_view name() noexcept {
-#ifndef __clang__
-        constexpr auto p1 = EnumReflect::find<1, '=', 0, ENUM, VALUE>();
-        constexpr auto p2 = EnumReflect::find<0, ';', p1, ENUM, VALUE>();
-#else
+#if defined(_MSC_VER)
+        constexpr auto p1 = EnumIterator::find<1, ',', 0, ENUM, VALUE>();
+        constexpr auto p2 = EnumIterator::find<2, ',', 0, ENUM, VALUE>();
+        return std::string_view(EnumIterator::string<ENUM, VALUE>().data() + (p1 + 1), p2 - p1 - 1);
+#elif defined(__clang__)
         constexpr auto p1 = EnumIterator::find<1, '=', 0, ENUM, VALUE>();
         constexpr auto p2 = EnumIterator::find<0, ']', p1, ENUM, VALUE>();
         return std::string_view(EnumIterator::string<ENUM, VALUE>().data() + (p1 + 2), p2 - p1 - 2);
+
+#else
+        constexpr auto p1 = EnumIterator::find<1, '=', 0, ENUM, VALUE>();
+        constexpr auto p2 = EnumIterator::find<0, ';', p1, ENUM, VALUE>();
+        return std::string_view(EnumIterator::string<ENUM, VALUE>().data() + (p1 + 2), p2 - p1 - 2);
+
 #endif
     }
 
@@ -69,7 +81,7 @@ public:
             return array;
         } ();
 
-     static std::optional<int> isName(const std::string_view& v) {
+     static std::optional<std::size_t> isName(const std::string_view& v) {
         constexpr char ENUM_SEP = ':';
         const auto p0 = v.find_first_of(ENUM_SEP);
         return (p0 != std::string_view::npos && p0 < v.size() + 1 && v[p0 + 1] == ENUM_SEP)
