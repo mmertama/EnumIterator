@@ -1,5 +1,6 @@
 # EnumIterator
 Simple iterate over enum class, get value as a string or enumeration by string.
+
 https://github.com/mmertama/EnumIterator
 
 * C++17
