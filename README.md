@@ -33,8 +33,8 @@ enum class States {
     zucker = 3
 };  
   
-for(const auto& [v, s] : EnumIterator::Values<States>{}) {
-    std::cout << static_cast<int>(v) << " --> " << s << std::endl;
+for(const auto& [v, s] : EnumIterator::Values&lt;States>{}) {
+    std::cout &lt;&lt; static_cast<int>(v) &lt;&lt;" --> " &lt;&lt; s &lt;&lt; std::endl;
 }
 
 // outputs
@@ -52,8 +52,8 @@ enum class Genophenes {
 };
 
 //here we have to set ranges due bigger values, you can also use enum values here.
- for(const auto& [v, s] : EnumIterator::Values<Genophenes, 20, 110>{}) {
-        std::cout << static_cast<int>(v) << " --> " << s << std::endl;
+ for(const auto& [v, s] : EnumIterator::Values&lt;Genophenes, 20, 110>{}) {
+        std::cout &lt;&lt; static_cast<int>(v) &lt;&lt; " --> " &lt;&lt; s &lt;&lt; std::endl;
     }
 
 //outputs
