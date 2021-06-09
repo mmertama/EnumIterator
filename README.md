@@ -1,5 +1,5 @@
 # EnumIterator
-Simple iterate over enum class, get value as a string or enumeration by string.
+Let iterate over an enum class, get an single enum name as a string, and get an enumeration value by a string.
 
 https://github.com/mmertama/EnumIterator
 
