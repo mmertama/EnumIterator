@@ -1,6 +1,8 @@
 #ifndef ENUMITERATOR_H
 #define ENUMITERATOR_H
 
+// MIT License, (c) Markus Mertama 2021
+
 #include <iostream>
 #include <string_view>
 #include <functional>
