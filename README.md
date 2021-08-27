@@ -51,8 +51,8 @@ for(const auto& [v, s] : EnumIterator::Values&lt;States>{}) {
 > 1 --> States::healed
 > 3 --> States::zucker
     
-EnumIterator::Values<States>::valueOf("symptom"); // States::symptom
-EnumIterator::Values<States>::nameOf(States::symptom)); // "symptom"
+EnumIterator::Values&lt;States>::valueOf("symptom"); // States::symptom
+EnumIterator::Values&lt;States>::nameOf(States::symptom)); // "symptom"
 
 enum class Genophenes {
     treee = 92,
@@ -62,7 +62,7 @@ enum class Genophenes {
 
 //here we have to set ranges due bigger values, you can also use enum values here.
  for(const auto& [v, s] : EnumIterator::Values&lt;Genophenes, 20, 110>{}) {
-        std::cout &lt;&lt; static_cast<int>(v) &lt;&lt; " --> " &lt;&lt; s &lt;&lt; std::endl;
+        std::cout &lt;&lt; static_cast&lt;int>(v) &lt;&lt; " --> " &lt;&lt; s &lt;&lt; std::endl;
     }
 
 //outputs
